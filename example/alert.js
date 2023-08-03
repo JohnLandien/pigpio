@@ -40,6 +40,8 @@ const watchPWM = ( pwmSource) => {
     if (diff1 >> 0 && diff2 >> 0) {
       if (pwmSignalValues.length < 5) {
         pwmSignalValues.push(Math.floor(100*diff1/(diff1 + diff2)));
+        diff1 = 0;
+        diff2 = 0;
       }
       if (pwmSignalValues.length >= 5) {
         pwmSignal = 0;
