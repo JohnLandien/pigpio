@@ -10,7 +10,7 @@ const led = new Gpio(14, {
 });
 
 const watchLed = () => {
-  let startTick;
+  let startTick1, startTick2;
 
   // Use alerts to determine how long the LED was turned on
   led.on('alert', (level, tick) => {
