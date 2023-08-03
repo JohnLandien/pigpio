@@ -18,13 +18,15 @@ const watchLed = () => {
       startTick1 = tick;
       const endTick2 = tick;
       const diff2 = (endTick2 >> 0) - (startTick2 >> 0); // Unsigned 32 bit arithmetic
-      console.log(diff2);
+      //console.log(diff2);
     } else {
       startTick2 = tick;
       const endTick1 = tick;
       const diff1 = (endTick1 >> 0) - (startTick1 >> 0); // Unsigned 32 bit arithmetic
-      console.log(diff1);
+      //console.log(diff1);
     }
+    if (diff1 >> 0 && diff2 >> 0) { console.log( "dutycycle = ", diff2/diff2) }
+    
   });
 };
 
