@@ -28,7 +28,7 @@ const watchPWM = () => {
   });
   if (diff1 >> 0 && diff2 >> 0) { 
     console.log( "dutycycle = ", diff1/(diff1 + diff2))
-    pwminput.disableAlert()
+    //pwminput.disableAlert()
   }
   
 };
