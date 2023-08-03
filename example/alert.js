@@ -24,7 +24,7 @@ const watchPWM = () => {
       //console.log(diff1);
     }
     if (diff1 >> 0 && diff2 >> 0) { 
-      console.log( "dutycycle = ", Math.floor(100*diff1/(diff1 + diff2))) + "%"
+      console.log( "dutycycle = ", Math.floor(100*diff1/(diff1 + diff2)) + "%")
     }
   });
     
