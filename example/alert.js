@@ -31,11 +31,11 @@ const watchPWM = ( pwmSource) => {
     if (level === 1) {
       startTick1 = tick;
       diff2 = (tick >> 0) - (startTick2 >> 0); // Unsigned 32 bit arithmetic
-      //console.log(diff2);
+      console.log(diff2);
     } else {
       startTick2 = tick;
       diff1 = (tick >> 0) - (startTick1 >> 0); // Unsigned 32 bit arithmetic
-      //console.log(diff1);
+      console.log(diff1);
     }
     if (diff1 >> 0 && diff2 >> 0) {
       if (pwmSignalValues.length < 5) {
