@@ -21,6 +21,8 @@ const pwminput = new Gpio(14, {
   alert: true
 });
 
+let pwmSignalValues = [];
+
 const watchPWM = ( pwmSource) => {
   let startTick1, startTick2,diff1,diff2,pwmSignal;
 
@@ -36,21 +38,27 @@ const watchPWM = ( pwmSource) => {
       //console.log(diff1);
     }
     if (diff1 >> 0 && diff2 >> 0) {
-      pwmSignal = Math.floor(100*diff1/(diff1 + diff2));
+      if (pwmSignalValues.length < 5) {
+        pwmSignalValues.push(Math.floor(100*diff1/(diff1 + diff2)));
+      }
+      if (pwmSignalValues.length >= 5) {
+        pwmSignal = 0;
+        for (const obj of pwmSignalValues) {
+          pwmSignal += obj;
+        }
+        pwmSignal = Math.floor(pwmSignal/5);
+      }
       if ( pwmSignal <= 10 ) { console.log("pump is running on max speed")}
-      else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  ((pwmSignal-10)/0.74) + " % of max speed")}
+      else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  Math.floor((pwmSignal-10)/0.74) + " % of max speed")}
       else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { console.log("pump is running on lowest speed")}
       else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { console.log("pump is switchting on / off")}
       else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { console.log("pump is standby and not working")}
       else { console.log("pump has no pwm signal")}
-      console.log(pwmSource);
-      if (pwmSignal > 95) {
-        pwminput.disableAlert();
-      }
+      pwminput.disableAlert();
     }
   });
     
 };
 
-setTimeout(watchPWM, 150, 'funky');
+watchPWM('funky');
 
