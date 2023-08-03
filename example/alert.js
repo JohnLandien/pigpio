@@ -23,7 +23,8 @@ const watchPWM = () => {
       diff1 = (tick >> 0) - (startTick1 >> 0); // Unsigned 32 bit arithmetic
       //console.log(diff1);
     }
-    
+    if (diff1 >> 0 && diff2 >> 0) { 
+    console.log( "dutycycle = ", diff1/(diff1 + diff2))
     
   });
   if (diff1 >> 0 && diff2 >> 0) { 
