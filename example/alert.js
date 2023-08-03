@@ -38,7 +38,7 @@ const watchPWM = ( pwmSource) => {
     if (diff1 >> 0 && diff2 >> 0) {
       pwmSignal = Math.floor(100*diff1/(diff1 + diff2));
       if ( pwmSignal <= 10 ) { console.log("pump is running on max speed")}
-      else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  ((pwmSignal-10)*1/0,74) + " % of max speed)}
+      else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  ((pwmSignal-10)*1/0,74) + " % of max speed")}
       else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { console.log("pump is running on lowest speed")}
       else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { console.log("pump is switchting on / off")}
       else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { console.log("pump is standby and not working")}
