@@ -4,8 +4,8 @@
 
 const Gpio = require('../').Gpio;
 
-const led = new Gpio(17, {
-  mode: Gpio.OUTPUT,
+const led = new Gpio(14, {
+  mode: Gpio.INPUT,
   alert: true
 });
 
@@ -27,7 +27,5 @@ const watchLed = () => {
 watchLed();
 
 // Turn the LED on for 15 microseconds once per second
-setInterval(() => {
-  led.trigger(15, 1);
-}, 1000);
+
 
