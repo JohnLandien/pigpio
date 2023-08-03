@@ -1,3 +1,4 @@
+
 'use strict';
 
 /*Read Incoming PWM signal from Grundfoss UPM 3 pump 
@@ -20,7 +21,7 @@ const pwminput = new Gpio(14, {
   alert: true
 });
 
-const watchPWM = () => {
+const watchPWM = ( pwmSource) => {
   let startTick1, startTick2,diff1,diff2,pwmSignal;
 
   // Use alerts to determine how long the LED was turned on
@@ -42,11 +43,12 @@ const watchPWM = () => {
       elseif ( pwmSignal > 91 && pwmSignal =< 95 ) { console.log("pump is switchting on / off")}
       elseif ( pwmSignal > 95 && pwmSignal =< 100 ) { console.log("pump is standby and not working")}
       else { console.log("pump has no pwm signal")}
+      console.log(pwmSource);
       
     }
   });
     
 };
 
-
+setTimeout(watchPWM, 150, 'funky');
 
