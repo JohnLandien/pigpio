@@ -51,14 +51,15 @@ const watchPWM = ( pwmSource) => {
           pwmSignal += obj;
         }
         pwmSignal = Math.floor(pwmSignal/5);
+        if ( pwmSignal <= 10 ) { console.log("pump is running on max speed")}
+        else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  Math.floor((pwmSignal-10)/0.74) + " % of max speed")}
+        else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { console.log("pump is running on lowest speed")}
+        else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { console.log("pump is switchting on / off")}
+        else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { console.log("pump is standby and not working")}
+        else { console.log("pump has no pwm signal")}
+        pwminput.disableAlert();
       }
-      if ( pwmSignal <= 10 ) { console.log("pump is running on max speed")}
-      else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  Math.floor((pwmSignal-10)/0.74) + " % of max speed")}
-      else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { console.log("pump is running on lowest speed")}
-      else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { console.log("pump is switchting on / off")}
-      else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { console.log("pump is standby and not working")}
-      else { console.log("pump has no pwm signal")}
-      pwminput.disableAlert();
+     
     }
   });
     
