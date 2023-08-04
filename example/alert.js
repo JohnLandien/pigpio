@@ -57,7 +57,8 @@ function DuCy2Grundfoss(pwmSignal) {
 
 const watchPWM = (pwmSource) => {
 
-  let startTick1, startTick2, diff1, diff2, pwmSignal, pwmSignalValues
+  let startTick1, startTick2, diff1, diff2, pwmSignal;
+  let pwmSignalValues = [];
   let index = 0;
 
   pwmInput[pwmSource].on('alert', (level, tick) => {
