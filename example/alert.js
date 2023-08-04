@@ -78,11 +78,11 @@ const watchPWM = (pwmSource) => {
       
 
       if (index < 5) { // store as dutycycle between 0 - 100
-
-        pwmSignalValues.push(
-          Math.floor(100 * diff1 / (diff1 + diff2))
+        index++
+        pwmSignalValues[index] = 
+          Math.floor(100 * diff1 / (diff1 + diff2)
         );
-        index++;
+        ;
 
         diff1 = diff2 = 0;
 
