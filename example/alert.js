@@ -24,6 +24,8 @@ const pwmInput = {
   collector5: new Gpio(18, { mode: Gpio.INPUT, alert: true })
 };
 
+console.log(pwmInput)
+
 function DuCy2Grundfoss(pwmSignal) {
 
   if (pwmSignal <= 10) {
