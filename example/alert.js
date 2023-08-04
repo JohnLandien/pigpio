@@ -78,7 +78,7 @@ const watchPWM = ( pwmSource) => {
 
         pwmSignalValues.push(
           Math.floor(100*diff1/(diff1 + diff2))
-          );
+        );
 
         diff1 = diff2 = 0;
 
