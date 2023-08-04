@@ -102,5 +102,5 @@ const watchPWM = ( pwmSource) => {
     
 };
 
-concole.log(DuCy2Grundfoss(watchPWM('collector1')));
+console.log(DuCy2Grundfoss(watchPWM('collector1')));
 
