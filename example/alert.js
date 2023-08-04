@@ -57,7 +57,8 @@ function DuCy2Grundfoss(pwmSignal) {
 
 const watchPWM = (pwmSource) => {
 
-  let startTick1, startTick2, diff1, diff2, pwmSignal, pwmSignalValues;
+  let startTick1, startTick2, diff1, diff2, pwmSignal, pwmSignalValues
+  let index = 0;
 
   pwmInput[pwmSource].on('alert', (level, tick) => {
 
@@ -73,25 +74,28 @@ const watchPWM = (pwmSource) => {
 
     }
     if (diff1 >> 0 && diff2 >> 0) { // both timelengths of signal are present
+      
 
-      if (pwmSignalValues.length < 5) { // store as dutycycle between 0 - 100
+      if (index < 5) { // store as dutycycle between 0 - 100
 
         pwmSignalValues.push(
           Math.floor(100 * diff1 / (diff1 + diff2))
         );
+        index++;
 
         diff1 = diff2 = 0;
 
       }
-      if (pwmSignalValues.length >= 5) { // we have 5 values calculate average
+      if (index >= 5) { // we have 5 values calculate average
 
         pwmInput[pwmSource].disableAlert();
 
         pwmSignal = 0;
 
-        for (const obj of pwmSignalValues) {
-          pwmSignal += obj;
+        for (const pwmvalue of pwmSignalValues) {
+          pwmSignal += pwmvalue;
         }
+        index = 0;
 
         return Math.floor(pwmSignal / 5)
 
