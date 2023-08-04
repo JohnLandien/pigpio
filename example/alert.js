@@ -14,44 +14,87 @@
 
 */
 
-const Gpio = require('../').Gpio;
+import { Gpio } from '../';
 
-const pwminput = new Gpio(14, {
-  mode: Gpio.INPUT,
-  alert: true
-});
+const pwmInput = { 
+  collector1 : new Gpio(14, {   mode: Gpio.INPUT,   alert: true }) ,
+  collector2 : new Gpio(15, {   mode: Gpio.INPUT,   alert: true }) ,
+  collector3 : new Gpio(16, {   mode: Gpio.INPUT,   alert: true }) ,
+  collector4 : new Gpio(17, {   mode: Gpio.INPUT,   alert: true }) ,
+  collector5 : new Gpio(18, {   mode: Gpio.INPUT,   alert: true }) 
+};
 
-let pwmSignalValues = [];
+function DuCy2Grundfoss ( pwmSignal ) {
+
+  if ( pwmSignal <= 10 ) { 
+
+    return "pump is running on max speed"
+
+  } else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { 
+
+    return "pump is running on " ,  Math.floor((pwmSignal-10)/0.74) + " % of max speed"
+  
+  } else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { 
+
+    return "pump is running on lowest speed"
+
+  } else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { 
+    
+    return "pump is switchting on / off"
+  
+  } else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { 
+    
+    return "pump is standby and not working"
+  
+  } else { 
+    
+    return "pump gives no valid pwm signal"
+  
+  }
+}
+
+
 
 const watchPWM = ( pwmSource) => {
-  let startTick1, startTick2,diff1,diff2,pwmSignal;
+  
+  let startTick1, startTick2,diff1,diff2,pwmSignal, pwmSignalValues;
 
-  pwminput.on('alert', (level, tick) => {
+  pwmInput[pwmSource].on('alert', (level, tick) => {
+
     if (level === 1) {
-      startTick1 = tick;
-      diff2 = (tick >> 0) - (startTick2 >> 0); // Unsigned 32 bit arithmetic
+
+      startTick1 = tick; // save start time of rising edge of signal
+      diff2 = (tick >> 0) - (startTick2 >> 0); // calculate time between falling and rising edge of signal
+
     } else if (level === 0){
-      startTick2 = tick;
-      diff1 = (tick >> 0) - (startTick1 >> 0); // Unsigned 32 bit arithmetic
+
+      startTick2 = tick;// save start time of falling edge of signal
+      diff1 = (tick >> 0) - (startTick1 >> 0); // calculate time between rising and falling edge of signal
+
     }
-    if (diff1 >> 0 && diff2 >> 0) {
-      if (pwmSignalValues.length < 5) {
-        pwmSignalValues.push(Math.floor(100*diff1/(diff1 + diff2)));
+    if (diff1 >> 0 && diff2 >> 0) { // both timelengths of signal are present
+
+      if (pwmSignalValues.length < 5) { // store as dutycycle between 0 - 100
+
+        pwmSignalValues.push(
+          Math.floor(100*diff1/(diff1 + diff2))
+          );
+
         diff1 = diff2 = 0;
+
       }
-      if (pwmSignalValues.length >= 5) {
+      if (pwmSignalValues.length >= 5) { // we have 5 values calculate average
+
+        pwmInput[pwmSource].disableAlert(); 
+
         pwmSignal = 0;
+
         for (const obj of pwmSignalValues) {
           pwmSignal += obj;
         }
-        pwmSignal = Math.floor(pwmSignal/5);
-        if ( pwmSignal <= 10 ) { console.log("pump is running on max speed")}
-        else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  Math.floor((pwmSignal-10)/0.74) + " % of max speed")}
-        else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { console.log("pump is running on lowest speed")}
-        else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { console.log("pump is switchting on / off")}
-        else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { console.log("pump is standby and not working")}
-        else { console.log("pump has no pwm signal")}
-        pwminput.disableAlert();
+
+        return Math.floor(pwmSignal/5)
+        
       }
      
     }
@@ -59,5 +102,5 @@ const watchPWM = ( pwmSource) => {
     
 };
 
-watchPWM('funky');
+concole.log(DuCy2Grundfoss(watchPWM('collector1')));
 
