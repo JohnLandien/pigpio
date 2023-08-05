@@ -71,5 +71,5 @@ const watchPWM = ( pwmSource, amount_iterations) => {
     
 };
 
-let xx = Dc2Gf(watchPWM('funky'));
+let xx = Dc2Gf(watchPWM('funky',10));
 
