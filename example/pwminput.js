@@ -58,13 +58,8 @@ const watchPWM = ( pwmSource, amount_iterations) => {
         diff1 = diff2 = 0;
       }
       if (pwmSignalValues.length >= amount_iterations) {
-        pwmSignal = 0;
-        for (const obj of pwmSignalValues) {
-          pwmSignal += obj;
-        }
         pwminput.disableAlert();
       }
-     
     }
   });
   if (pwmSignalValues.length >= amount_iterations ) { return pwmSignalValues }  
