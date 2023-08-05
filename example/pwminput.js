@@ -59,11 +59,18 @@ const watchPWM = ( pwmSource, amount_iterations) => {
       }
       if (pwmSignalValues.length >= amount_iterations) {
         pwminput.disableAlert();
+        doNewThings(pwmSignalValues)
       }
     }
   });
-  if (pwmSignalValues.length >= amount_iterations ) { return pwmSignalValues }  
 };
 
-let xx = Dc2Gf(watchPWM('funky',10));
+const doNewThings = (values) => {
+  console.log(values);
+  console.log(values.map(Dc2Gf));
+  // do more things
+}
+
+// start the watch function
+watchPWM('funky',10);
 
