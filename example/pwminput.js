@@ -22,7 +22,7 @@ const pwminput = new Gpio(14, {
 });
 
 const Dc2Gf = (Dc) => {
-  if (Dc <= 10) { return 1 }
+  if (Dc <= 10) { return 100 }
   else if ((Dc > 10) && (Dc <= 84)) { 
     return Math.round((Dc-10)/0.74)
   }
