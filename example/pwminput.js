@@ -62,13 +62,12 @@ const watchPWM = ( pwmSource, amount_iterations) => {
         for (const obj of pwmSignalValues) {
           pwmSignal += obj;
         }
-        return pwmSignalValues 
         pwminput.disableAlert();
       }
      
     }
   });
-    
+  if (pwmSignalValues.length >= amount_iterations ) { return pwmSignalValues }  
 };
 
 let xx = Dc2Gf(watchPWM('funky',10));
