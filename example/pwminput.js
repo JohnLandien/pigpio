@@ -47,12 +47,12 @@ const watchPWM = ( pwmSource, amount_iterations) => {
   pwminput.on('alert', (level, tick) => {
     if (level === 1) {
       startTick1 = tick;
-      diff2 = (tick >> 0) - (startTick2 >> 0); // Unsigned 32 bit arithmetic
+      diff2 = (tick > 0) - (startTick2 > 0); // Unsigned 32 bit arithmetic
     } else if (level === 0){
       startTick2 = tick;
-      diff1 = (tick >> 0) - (startTick1 >> 0); // Unsigned 32 bit arithmetic
+      diff1 = (tick > 0) - (startTick1 > 0); // Unsigned 32 bit arithmetic
     }
-    if (diff1 >> 0 && diff2 >> 0) {
+    if (diff1 > 0 && diff2 > 0) {
       if (pwmSignalValues.length < amount_iterations) {
         pwmSignalValues.push(Math.floor(100*diff1/(diff1 + diff2)));
         diff1 = diff2 = 0;
