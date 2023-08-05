@@ -22,7 +22,7 @@ const pwminput = new Gpio(14, {
 });
 
 const Dc2Gf = (Dc) => {
-  if (Dc <= 10) { console.log("pump is running on max speed") }
+  if (Dc <= 10) { return 1 }
   else if ((Dc > 10) && (Dc <= 84)) { 
     return Math.round((Dc-10)/0.74)
   }
@@ -33,7 +33,6 @@ const Dc2Gf = (Dc) => {
     return 0
   }
   else {
-    console.log("pump has no pwm signal");
     return false
   }
 
