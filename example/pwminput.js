@@ -21,9 +21,28 @@ const pwminput = new Gpio(14, {
   alert: true
 });
 
+const Dc2Gf = (Dc) => {
+  if (Dc <= 10) { console.log("pump is running on max speed") }
+  else if ((Dc > 10) && (Dc <= 84)) { 
+    return Math.round((Dc-10)/0.74)
+  }
+  else if ((Dc > 84) && (Dc <= 91)) { 
+    return 1
+  }
+  else if ((Dc > 91) && (Dc <= 100)) { 
+    return 0
+  }
+  else {
+    console.log("pump has no pwm signal");
+    return false
+  }
+
+}
+
+
 let pwmSignalValues = [];
 
-const watchPWM = ( pwmSource) => {
+const watchPWM = ( pwmSource, amount_iterations) => {
   let startTick1, startTick2,diff1,diff2,pwmSignal;
 
   pwminput.on('alert', (level, tick) => {
@@ -35,22 +54,16 @@ const watchPWM = ( pwmSource) => {
       diff1 = (tick >> 0) - (startTick1 >> 0); // Unsigned 32 bit arithmetic
     }
     if (diff1 >> 0 && diff2 >> 0) {
-      if (pwmSignalValues.length < 5) {
+      if (pwmSignalValues.length < amount_iterations) {
         pwmSignalValues.push(Math.floor(100*diff1/(diff1 + diff2)));
         diff1 = diff2 = 0;
       }
-      if (pwmSignalValues.length >= 5) {
+      if (pwmSignalValues.length >= amount_iterations) {
         pwmSignal = 0;
         for (const obj of pwmSignalValues) {
           pwmSignal += obj;
         }
-        pwmSignal = Math.floor(pwmSignal/5);
-        if ( pwmSignal <= 10 ) { console.log("pump is running on max speed")}
-        else if ( (pwmSignal > 10) && (pwmSignal <= 84) ) { console.log("pump is running on " ,  Math.floor((pwmSignal-10)/0.74) + " % of max speed")}
-        else if ( (pwmSignal > 84) && (pwmSignal <= 91) ) { console.log("pump is running on lowest speed")}
-        else if ( (pwmSignal > 91) && (pwmSignal <= 95) ) { console.log("pump is switchting on / off")}
-        else if ( (pwmSignal > 95) && (pwmSignal <= 100) ) { console.log("pump is standby and not working")}
-        else { console.log("pump has no pwm signal")}
+        return pwmSignalValues 
         pwminput.disableAlert();
       }
      
@@ -59,5 +72,5 @@ const watchPWM = ( pwmSource) => {
     
 };
 
-watchPWM('funky');
+let xx = watchPWM('funky');
 
